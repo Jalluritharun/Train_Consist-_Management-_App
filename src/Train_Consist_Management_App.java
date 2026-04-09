@@ -1,46 +1,29 @@
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
-// Bogie class (Custom Object)
-class Bogie {
-    String name;
-    int capacity;
-
-    // Constructor
-    Bogie(String name, int capacity) {
-        this.name = name;
-        this.capacity = capacity;
-    }
-
-    // toString() for easy display
-    @Override
-    public String toString() {
-        return name + " (Capacity: " + capacity + ")";
-    }
-}
-
-public class Train_Consist_Management_App {
+public class TrainConsistApp {
 
     public static void main(String[] args) {
 
-        System.out.println("=== Train Consist Management App ===");
-
-        // Create list of bogies
+        // Step 1: Create list of bogies
         List<Bogie> bogies = new ArrayList<>();
+        bogies.add(new Bogie("Sleeper"));
+        bogies.add(new Bogie("AC Chair"));
+        bogies.add(new Bogie("Sleeper"));
+        bogies.add(new Bogie("First Class"));
+        bogies.add(new Bogie("AC Chair"));
 
-        // Add bogies
-        bogies.add(new Bogie("Sleeper", 72));
-        bogies.add(new Bogie("AC Chair", 54));
-        bogies.add(new Bogie("First Class", 24));
+        // Step 2: Convert to stream & group
+        Map<String, List<Bogie>> groupedBogies =
+                bogies.stream()
+                        .collect(Collectors.groupingBy(Bogie::getType));
 
-        // Sort bogies by capacity (ascending)
-        bogies.sort(Comparator.comparingInt(b -> b.capacity));
+        // Step 3: Display grouped result
+        System.out.println("Grouped Bogies:");
+        groupedBogies.forEach((type, list) -> {
+            System.out.println(type + " -> " + list);
+        });
 
-        // Display sorted bogies
-        System.out.println("\nBogies sorted by capacity (Ascending):");
-        for (Bogie b : bogies) {
-            System.out.println(b);
-        }
+        // Program continues...
     }
 }
